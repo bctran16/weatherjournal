@@ -6,7 +6,6 @@ let d = new Date();
 let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 const postData = async( url = '', data = {}) => {
-    console.log(data);
     const response = await fetch( url , {
         method: 'POST', 
         credentials:'same-origin', 
@@ -17,7 +16,6 @@ const postData = async( url = '', data = {}) => {
     }); 
     try {
         const newData = await response.json();
-        console.log(newData);
         return newData
     } catch (error)
     {
@@ -33,18 +31,38 @@ function performAction(event) {
     console.log(newZIP);
     console.log(feelings);
     getTemp(baseURL, APIkey, newZIP).then((data) =>{
-        console.log(data.main.temp);
         postData('/addEntry', {temp: data.main.temp, date: newDate, feeling: feelings});
-    })
-    
+    }).then(
+        updateUI()
+        );
 }
 const getTemp = async (baseURL, APIkey, newZIP) => {
     const res = await fetch(baseURL+newZIP+APIkey);
     try {
         const data = await res.json(); 
-        console.log(data)
         return data;
     } catch (error) {
+        console.log('error', error);
+    }
+}
+
+const updateUI = async() => {
+    const request = await fetch('/getAll');
+    try {
+        const allData = await (request.json());
+        console.log(allData)
+        let i = allData.length-1;
+        let date = document.createElement('p');
+        let temperature = document.createElement('p');
+        let feeling = document.createElement('p');
+        temperature.innerText = (allData[i].temp - 273.15);
+        date.innerText = allData[i].date;
+        feeling.innerText = allData[i].feeling;
+        document.querySelector('#date').appendChild(date);
+        document.querySelector('#temp').appendChild(temperature);
+        document.querySelector('#content').appendChild(feeling);
+
+    } catch (error){
         console.log('error', error);
     }
 }

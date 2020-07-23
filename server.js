@@ -23,22 +23,28 @@ const port = 5500;
 const server = app.listen(port, () => {console.log(`server running at port ${port}`)});
 
 // Get Request Server Side
-app.get('/addEntry', (req, res) => res.send(projectData));
+app.get('/getAll', (req, res) => {
+    console.log(projectData);
+    res.send(projectData)
+    
+});
 
 // Post Request Server Side
 app.post('/addEntry', (req, res) => { 
-    makeData(req); 
+    makeData(req, res);
+    res.send(projectData);
 });
 
-function makeData (req) {
+function makeData (req, res) {
     let newData = req;
     let newEntry = {
         temp: req.body.temp,
         date: req.body.date, 
         feeling: req.body.feeling
     }
-    console.log(newEntry);
     projectData.push(newEntry);
+    console.log(projectData);
+    return projectData;
 }
 
 
