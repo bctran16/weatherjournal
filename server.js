@@ -24,7 +24,6 @@ const server = app.listen(port, () => {console.log(`server running at port ${por
 
 // Get Request Server Side
 app.get('/getAll', (req, res) => {
-    console.log(projectData);
     res.send(projectData)
     
 });
@@ -43,7 +42,6 @@ function makeData (req, res) {
         feeling: req.body.feeling
     }
     projectData.push(newEntry);
-    console.log(projectData);
     return projectData;
 }
 

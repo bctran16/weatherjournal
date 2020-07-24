@@ -28,13 +28,11 @@ document.getElementById('generate').addEventListener('click', performAction);
 function performAction(event) {
     const newZIP = document.querySelector('#zip').value;
     const feelings = document.querySelector('#feelings').value; 
-    console.log(newZIP);
-    console.log(feelings);
     getTemp(baseURL, APIkey, newZIP).then((data) =>{
         postData('/addEntry', {temp: data.main.temp, date: newDate, feeling: feelings});
-    }).then(
-        updateUI()
-        );
+    }).then( () => {
+        updateUI();
+    });
 }
 const getTemp = async (baseURL, APIkey, newZIP) => {
     const res = await fetch(baseURL+newZIP+APIkey);
@@ -50,12 +48,11 @@ const updateUI = async() => {
     const request = await fetch('/getAll');
     try {
         const allData = await (request.json());
-        console.log(allData)
         let i = allData.length-1;
         let date = document.createElement('p');
         let temperature = document.createElement('p');
         let feeling = document.createElement('p');
-        temperature.innerText = (allData[i].temp - 273.15);
+        temperature.innerText = (allData[i].temp - 273.15).toFixed(1);
         date.innerText = allData[i].date;
         feeling.innerText = allData[i].feeling;
         document.querySelector('#date').appendChild(date);
