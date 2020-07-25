@@ -1,5 +1,5 @@
 /* Global Variables */
-const APIkey = '&appid=b31032759b3d24f904a645ae965e04af'; 
+const APIkey = '&appid=b31032759b3d24f904a645ae965e04af&units=imperial'; 
 const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -52,7 +52,7 @@ const updateUI = async() => {
         let date = document.createElement('p');
         let temperature = document.createElement('p');
         let feeling = document.createElement('p');
-        temperature.innerText = (allData[i].temp - 273.15).toFixed(1);
+        temperature.innerText = (allData[i].temp).toFixed(1);
         date.innerText = allData[i].date;
         feeling.innerText = allData[i].feeling;
         document.querySelector('#date').appendChild(date);
