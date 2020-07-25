@@ -27,6 +27,9 @@ document.getElementById('generate').addEventListener('click', performAction);
 
 function performAction(event) {
     const newZIP = document.querySelector('#zip').value;
+    if (newZIP===""){ 
+        alert("not a number");
+    }
     const feelings = document.querySelector('#feelings').value; 
     getTemp(baseURL, APIkey, newZIP).then((data) =>{
         postData('/addEntry', {temp: data.main.temp, date: newDate, feeling: feelings});
@@ -40,7 +43,7 @@ const getTemp = async (baseURL, APIkey, newZIP) => {
         const data = await res.json(); 
         return data;
     } catch (error) {
-        console.log('error', error);
+        alert("request to server failed");
     }
 }
 
